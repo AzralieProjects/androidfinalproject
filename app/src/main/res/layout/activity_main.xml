@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#778899"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#708090"
+        >
+
+        <EditText
+            android:id="@+id/NameID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Song Name"
+            android:inputType="textPersonName"
+            android:textStyle="italic"/>
+        <EditText
+            android:id="@+id/UrlID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Stream URL"
+            android:inputType="textLongMessage"
+            android:textStyle="italic"/>
+
+        <Button
+            android:id="@+id/InsertID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="insert" />
+
+
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/SongsListViewId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#708090"
+        >
+
+        <ImageButton
+            android:id="@+id/Btn1Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+       android:src="@drawable/ic_music_note"/>
+        <ImageButton
+            android:id="@+id/Btn2Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:src="@drawable/ic_cloud_upload"
+        />
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
