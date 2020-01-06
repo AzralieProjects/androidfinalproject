@@ -177,9 +177,9 @@ mUploadTask=storageReference.putFile(audioUri).addOnSuccessListener(new OnSucces
 
 
             case R.id.UploadID:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
                     UploadFile();
-                }
+
 
 
         }
