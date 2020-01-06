@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "157044809340",
+    "firebase_url": "https://android-3c632.firebaseio.com",
+    "project_id": "android-3c632",
+    "storage_bucket": "android-3c632.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157044809340:android:60b1ef14971c5edc49f3f9",
+        "android_client_info": {
+          "package_name": "com.loayj_musah.mediaplayerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157044809340-l8ldesu6h5kb7cqhtr28brns8hsnmm8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loayj_musah.mediaplayerapp",
+            "certificate_hash": "112e56493aae489c11e8ab263500161780c55771"
+          }
+        },
+        {
+          "client_id": "157044809340-in8a88vcgufq4f5nc3e86p0pkunnech4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqfGgPflglSrd46qY9jslRpunF5B3LRt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157044809340-in8a88vcgufq4f5nc3e86p0pkunnech4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
