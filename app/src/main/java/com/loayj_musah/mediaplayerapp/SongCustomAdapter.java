@@ -33,8 +33,9 @@ public class SongCustomAdapter extends ArrayAdapter<Song>  {
 //
 
         TextView Name = (TextView) convertView.findViewById(R.id.name);
+        TextView Date=(TextView) convertView.findViewById(R.id.Amount);
         Name.setText(song.getName());
-
+        Date.setText("Added at : " +song.getDate());
         return convertView;
     }
 }

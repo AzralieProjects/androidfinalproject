@@ -1,14 +1,8 @@
 package com.loayj_musah.mediaplayerapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,12 +11,16 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener  {
     private Button Insert;
-    private ImageButton Btn1ID;
+    private ImageButton Btn1ID,uploadBtn;
     private EditText Name, URL;
     private ListView listView;
     private ArrayList<Song> arrayList;
@@ -39,6 +37,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         URL = findViewById(R.id.UrlID);
         Insert =findViewById(R.id.InsertID);
         Btn1ID=findViewById(R.id.Btn1Id);
+        uploadBtn=findViewById(R.id.UploadID);
         listView = findViewById(R.id.SongsListViewId);
         arrayList = new ArrayList<>();
         arrayAdapter = new SongCustomAdapter(this, arrayList);
@@ -51,10 +50,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 //if(played!=-1)
-                  //  stopService();
+                //  stopService();
 
                 startService();
-               // MusicPlay();
+                // MusicPlay();
                 played=position;
 
             }
@@ -63,9 +62,9 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         });
 
-       Insert.setOnClickListener(this);
-       Btn1ID.setOnClickListener(this);
-
+        Insert.setOnClickListener(this);
+        Btn1ID.setOnClickListener(this);
+        uploadBtn.setOnClickListener(this);
 
     }
 
@@ -78,21 +77,30 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
 
 
-       // }
+        // }
 
     }
     public void stopService(){
         stopService(new Intent(getApplicationContext(), MusicRecever.class));
     }
 
-public void MusicPlay() {
+    public void MusicPlay() {
 
 
-    Intent intent = new Intent(MainActivity.this, MusicPlayer.class);
-    startActivity(intent);
-    Toast.makeText(this, "MusicActivity", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, MusicPlayer.class);
+        startActivity(intent);
+        Toast.makeText(this, "MusicActivity", Toast.LENGTH_SHORT).show();
 
-}
+    }
+    public void upload_activity(){
+
+        Intent intent = new Intent(MainActivity.this, UplaodSong.class);
+//      startActivity(intent);
+        Toast.makeText(this, "upload activity", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+
+    }
+
     public void insert(){
 
         name = Name.getText().toString();
@@ -103,8 +111,10 @@ public void MusicPlay() {
             Toast.makeText(this, " Please fill the empty space", Toast.LENGTH_SHORT).show();
             return;
         }
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        arrayList.add(new Song(name,url,false));
+
+        //arrayList.add(new Song(name,url,currentDate));
         arrayAdapter.notifyDataSetChanged();
         Toast.makeText(this, "inserted", Toast.LENGTH_SHORT).show();
     }
@@ -113,15 +123,19 @@ public void MusicPlay() {
     public void onClick(View v) {
 
 
-            switch (v.getId()) {
-                case R.id.InsertID:
-                    insert();
-                    break;
-                case R.id.Btn1Id:
-                    MusicPlay();
-                    break;
+        switch (v.getId()) {
+            case R.id.InsertID:
+                insert();
+                break;
+            case R.id.Btn1Id:
+                MusicPlay();
+                break;
+            case R.id.UploadID:
+                upload_activity();
+                break;
 
-            }
+
+        }
 
 
 

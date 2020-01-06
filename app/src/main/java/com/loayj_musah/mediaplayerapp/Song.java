@@ -1,24 +1,36 @@
 package com.loayj_musah.mediaplayerapp;
 
 
+import android.net.Uri;
 
 public class Song {
     public Boolean getLike() {
-        return like;
+        return Like;
     }
 
     public void setLike(Boolean like) {
-        this.like = like;
+        this.Like = like;
     }
 
-    private String  Name,Url;
-    Boolean like;
+    private String  Name;
+    private String Url;
+    private String Date;
+    private Boolean Like;
 
-    public Song(String name, String url, Boolean like) {
+
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public Song(String name, String url, String date, Uri uri) {
         Name = name;
         Url = url;
-        this.like = like;
+        Date = date;
+
     }
+
+
 
 
     public String getName() {
@@ -36,9 +48,9 @@ public class Song {
     public void setUrl(String url) {
         Url = url;
     }
-
-    public Song(String name, String url) {
-        Name = name;
-        Url = url;
+    public String getDate() {
+        return Date;
     }
+
+
 }
