@@ -64,7 +64,7 @@
             android:ems="10"
        android:src="@drawable/ic_music_note"/>
         <ImageButton
-            android:id="@+id/UploadID"
+            android:id="@+id/UploadID1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -29,6 +29,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class UplaodSong extends AppCompatActivity implements View.OnClickListener  {
 EditText title;
@@ -36,7 +40,7 @@ TextView textViewImg;
 ProgressBar progressBar;
 Uri audioUri;
 private Button get_fileUpload ,uploadSong;
-StorageReference mStorageref;
+public StorageReference mStorageref;
 StorageTask mUploadTask;
 DatabaseReference databaseReference;
 
@@ -49,7 +53,7 @@ DatabaseReference databaseReference;
         progressBar=findViewById(R.id.ProgressbarID);
         get_fileUpload=findViewById(R.id.getFileUploadID);
         uploadSong=findViewById(R.id.UploadID);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("songs");
+        databaseReference= FirebaseDatabase.getInstance().getReference();
         mStorageref= FirebaseStorage.getInstance().getReference().child("songs");
         get_fileUpload.setOnClickListener(this);
         uploadSong.setOnClickListener(this);
@@ -121,13 +125,22 @@ textViewImg.setText(fileName);
             String duration;
             Toast.makeText(this, "Uploading Please Wait...", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(textViewImg.VISIBLE);
-            StorageReference storageReference=mStorageref.child(System.currentTimeMillis()+"."+getFileExtention(audioUri));
+                final StorageReference storageReference=mStorageref.child(title.getText()+"."+getFileExtention(audioUri));
 mUploadTask=storageReference.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
     @Override
     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-Song song=new Song(title.getText().toString(),"url","date",audioUri);
-String UploadId=databaseReference.push().getKey();
-databaseReference.child(UploadId).setValue(song);
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                String url=uri.toString();
+                Song song=new Song(title.getText().toString(),url,currentDate,audioUri);
+                String UploadId=databaseReference.push().getKey();
+                databaseReference.child("songs").child(UploadId).setValue(song);
+            }
+        });
+
+
     }
 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
     @Override

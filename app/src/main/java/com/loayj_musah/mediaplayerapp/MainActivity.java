@@ -11,7 +11,15 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,9 +34,13 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private ArrayList<Song> arrayList;
     private SongCustomAdapter arrayAdapter;
     private MediaPlayer player;
+    FirebaseStorage mStorage;
+    DatabaseReference databaseReference;
+ValueEventListener valueEventListener;
     int played=-1;
     String name ;
     String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +49,30 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         URL = findViewById(R.id.UrlID);
         Insert =findViewById(R.id.InsertID);
         Btn1ID=findViewById(R.id.Btn1Id);
-        uploadBtn=findViewById(R.id.UploadID);
+        uploadBtn=findViewById(R.id.UploadID1);
         listView = findViewById(R.id.SongsListViewId);
         arrayList = new ArrayList<>();
         arrayAdapter = new SongCustomAdapter(this, arrayList);
         listView.setAdapter(arrayAdapter);
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("songs");
+        valueEventListener=databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                for(DataSnapshot dss:dataSnapshot.getChildren()){
+                    Song song=dss.getValue(Song.class);
+
+                    arrayList.add(song);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "database error", Toast.LENGTH_SHORT).show();
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 
 
@@ -52,7 +83,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 //if(played!=-1)
                 //  stopService();
 
-                startService();
+                startService(position);
                 // MusicPlay();
                 played=position;
 
@@ -69,15 +100,14 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     }
 
 
-    public void startService()
+    public void startService(int position)
     {
         Intent serviceIntent = new Intent(this, MusicRecever.class);
-
+        String url=arrayList.get(position).getUrl();
+        serviceIntent.putExtra("url",url);
         startService(serviceIntent);
+        MusicPlay();
 
-
-
-        // }
 
     }
     public void stopService(){
@@ -99,6 +129,12 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         Toast.makeText(this, "upload activity", Toast.LENGTH_SHORT).show();
         startActivity(intent);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseReference.removeEventListener(valueEventListener);
     }
 
     public void insert(){
@@ -130,7 +166,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             case R.id.Btn1Id:
                 MusicPlay();
                 break;
-            case R.id.UploadID:
+            case R.id.UploadID1:
                 upload_activity();
                 break;
 
@@ -140,4 +176,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
 
     }
+
+
 }

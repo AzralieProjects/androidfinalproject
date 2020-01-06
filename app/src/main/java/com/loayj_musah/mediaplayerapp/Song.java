@@ -4,18 +4,12 @@ package com.loayj_musah.mediaplayerapp;
 import android.net.Uri;
 
 public class Song {
-    public Boolean getLike() {
-        return Like;
-    }
 
-    public void setLike(Boolean like) {
-        this.Like = like;
-    }
+
 
     private String  Name;
     private String Url;
     private String Date;
-    private Boolean Like;
 
 
 
@@ -24,9 +18,13 @@ public class Song {
     }
 
     public Song(String name, String url, String date, Uri uri) {
-        Name = name;
-        Url = url;
-        Date = date;
+        this.Name = name;
+        this.Url = url;
+        this.Date = date;
+
+    }
+    public Song() {
+
 
     }
 
