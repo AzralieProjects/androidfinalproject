@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private ArrayList<Song> arrayList;
     private SongCustomAdapter arrayAdapter;
     private MediaPlayer player;
+    private int index;
+    boolean playedB =false;
     FirebaseStorage mStorage;
     DatabaseReference databaseReference;
 ValueEventListener valueEventListener;
@@ -44,6 +48,8 @@ ValueEventListener valueEventListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         Name = findViewById(R.id.NameID);
         URL = findViewById(R.id.UrlID);
@@ -80,11 +86,7 @@ ValueEventListener valueEventListener;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                //if(played!=-1)
-                //  stopService();
-
                 startService(position);
-                // MusicPlay();
                 played=position;
 
             }
@@ -102,22 +104,27 @@ ValueEventListener valueEventListener;
 
     public void startService(int position)
     {
-        Intent serviceIntent = new Intent(this, MusicRecever.class);
+        index=position;
+        Intent serviceIntent = new Intent(this, MusicService.class);
         String url=arrayList.get(position).getUrl();
         serviceIntent.putExtra("url",url);
         startService(serviceIntent);
+        playedB=true;
         MusicPlay();
 
 
     }
     public void stopService(){
-        stopService(new Intent(getApplicationContext(), MusicRecever.class));
+        stopService(new Intent(getApplicationContext(), MusicService.class));
     }
 
     public void MusicPlay() {
-
-
         Intent intent = new Intent(MainActivity.this, MusicPlayer.class);
+        intent.putExtra("name",arrayList.get(index).getName());
+        intent.putExtra("play",false);
+        if(playedB)
+        intent.putExtra("play",true);
+
         startActivity(intent);
         Toast.makeText(this, "MusicActivity", Toast.LENGTH_SHORT).show();
 
