@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadingPhaseActivity"
+    android:orientation="vertical"
+    android:background="@drawable/nath">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:text="How Would You Wish To upload?"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+
+            >
+
+        </TextView>
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="5dip"
+        android:background="#FFF0FFF0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="40dp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/LinkUploadId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:text="Link Upload Stream"
+            android:clickable="true"
+            android:focusable="true"
+
+            android:textSize="40dp"
+            android:drawableBottom="@drawable/ic_cloud_download_black_24dp"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="10dip"
+            android:background="#FFFFFFF0" />
+        <TextView
+            android:id="@+id/DbUploadId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="40dp"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Song Upload To Database"
+            android:drawableBottom="@drawable/ic_phone_android"/>
+
+    </LinearLayout>
+
+</LinearLayout>

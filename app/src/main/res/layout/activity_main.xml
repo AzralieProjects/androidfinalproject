@@ -6,42 +6,7 @@
     android:orientation="vertical"
     android:background="@android:color/darker_gray"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
 
-        >
-
-        <EditText
-            android:id="@+id/NameID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Song Name"
-            android:inputType="textPersonName"
-            android:textStyle="italic"/>
-        <EditText
-            android:id="@+id/UrlID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Stream URL"
-            android:inputType="textLongMessage"
-            android:textStyle="italic"/>
-
-        <Button
-            android:id="@+id/InsertID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="insert" />
-
-
-
-    </LinearLayout>
     <ListView
         android:id="@+id/SongsListViewId"
         android:layout_width="match_parent"

@@ -3,7 +3,9 @@ package com.loayj_musah.mediaplayerapp;
 
 import android.net.Uri;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
 
 
 

@@ -50,6 +50,7 @@ public class MusicService extends Service
 
 
 
+
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
                 mediaPlayer.setDataSource(url);

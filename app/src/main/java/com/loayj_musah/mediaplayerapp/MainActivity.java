@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,19 +28,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener  {
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
     private Button Insert;
     private ImageView Btn1ID,uploadBtn;
     private EditText Name, URL;
     private ListView listView;
     private ArrayList<Song> arrayList;
     private SongCustomAdapter arrayAdapter;
-    private MediaPlayer player;
     private int index;
     boolean playedB =false;
     private ArrayList keys;
@@ -59,18 +54,15 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        Name = findViewById(R.id.NameID);
-        URL = findViewById(R.id.UrlID);
-        Insert =findViewById(R.id.InsertID);
+
         Btn1ID=findViewById(R.id.Btn1Id);
         uploadBtn=findViewById(R.id.UploadID1);
         listView = findViewById(R.id.SongsListViewId);
         Btn1ID.setEnabled(false);
         Btn1ID.setVisibility(View.INVISIBLE);
-         serviceIntent = new Intent(this, MusicService.class);
+        serviceIntent = new Intent(this, MusicService.class);
         arrayList = new ArrayList<>();
         keys=new ArrayList<String>();
-
         arrayAdapter = new SongCustomAdapter(this, arrayList);
         listView.setAdapter(arrayAdapter);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("songs");
@@ -122,7 +114,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             }
         });
 
-        Insert.setOnClickListener(this);
+
         Btn1ID.setOnClickListener(this);
         uploadBtn.setOnClickListener(this);
 
@@ -155,14 +147,14 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     {
         index=position;
         Intent serviceIntent = new Intent(this, MusicService.class);
+
+
        String url=arrayList.get(position).getUrl();
        serviceIntent.putExtra("url",url);
+        MusicPlay();
        if(isMyServiceRunning(MusicService.class))
            stopService(serviceIntent);
         startService(serviceIntent);
-
-        MusicPlay();
-
 
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -180,7 +172,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         intent.putExtra("name",arrayList.get(index).getName());
         intent.putExtra("url",arrayList.get(index).getUrl());
-
+        intent.putExtra("arraylist", arrayList);
+        intent.putExtra("index", index);
         if(playedB)
         intent.putExtra("play",true);
 
@@ -188,57 +181,43 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         Toast.makeText(this, "MusicActivity", Toast.LENGTH_SHORT).show();
 
     }
-    public void upload_activity(){
+    public void PhaseUpload(){
 
-        Intent intent = new Intent(MainActivity.this, UplaodSong.class);
-//      startActivity(intent);
-        Toast.makeText(this, "upload activity", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, UploadingPhaseActivity.class);
         startActivity(intent);
 
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         databaseReference.removeEventListener(valueEventListener);
     }
-
-    public void insert(){
-
-        name = Name.getText().toString();
-        url= URL.getText().toString();
-        Name.setText("");
-        URL.setText("");
-        if(name.equals("")||url.equals("")){
-            Toast.makeText(this, " Please fill the empty space", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-
-        arrayAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "inserted", Toast.LENGTH_SHORT).show();
-    }
+//    public void insert(){
+//        name = Name.getText().toString();
+//        url= URL.getText().toString();
+//        Name.setText("");
+//        URL.setText("");
+//        if(name.equals("")||url.equals("")){
+//            Toast.makeText(this, " Please fill the empty space", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+//
+//        arrayAdapter.notifyDataSetChanged();
+//        Toast.makeText(this, "inserted", Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
-            case R.id.InsertID:
-                insert();
-                break;
+
             case R.id.Btn1Id:
                 MusicPlay();
                 break;
             case R.id.UploadID1:
-                upload_activity();
+                PhaseUpload();
                 break;
-
-
         }
-
-
-
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -254,7 +233,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                         "nnectivity.\nMade By Loay & Musa ©.");
 
                 // add a neutral button to the alert box and assign a click listener
-                alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                alertbox.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
 
                     // click listener on the alert box
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -283,6 +262,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
+                break;
 
             case R.id.menu3:
                 MainActivity.this.finish();
