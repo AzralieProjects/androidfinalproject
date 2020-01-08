@@ -1,102 +1,85 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:background="#2E282E"
     android:gravity="start"
-    android:background="@android:color/white"
+    android:orientation="horizontal"
     android:padding="12dp">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="80dp"
-        android:layout_height="70dp"
+        android:layout_width="90dp"
+        android:layout_height="80dp"
         android:layout_centerVertical="true"
-        android:layout_gravity="left"
+        android:layout_gravity="center"
+        android:background="#4E413F"
         android:src="@drawable/playlist" />
-
-
-
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/image"
-        android:layout_centerVertical="true"
-        android:paddingLeft="6dp"
-        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/image"
+        android:orientation="vertical"
+        android:paddingLeft="6dp">
+
         <LinearLayout
             android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:singleLine="true"
                 android:text="Depeche Mode"
-                android:singleLine="true" />
-
+                android:textColor="#DAC5C5"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll2"
-            android:layout_below="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll1"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/secondary_text_dark_nodisable"
-                android:text="Remixes 81-04"
-                android:maxLines="1"
-                android:ellipsize="end" />
 
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll3"
-            android:layout_below="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@+id/ll2"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/Amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/secondary_text_dark_nodisable"
-                android:text="12 songs  1:18:53"
                 android:maxLines="1"
-                />
-
+                android:text="Add at:  "
+                android:textColor="#B6A1A1"
+                android:textSize="14sp" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll4"
-            android:layout_below="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-
-
-
-        </LinearLayout>
+            android:layout_below="@+id/ll2"
+            android:orientation="horizontal"></LinearLayout>
 
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

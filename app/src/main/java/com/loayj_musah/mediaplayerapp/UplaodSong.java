@@ -46,6 +46,7 @@ public StorageReference mStorageref;
 StorageTask mUploadTask;
 DatabaseReference databaseReference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +127,7 @@ textViewImg.setText(fileName);
 
     public void UploadFile() {
         if(audioUri!=null){
-            String duration;
+
             Toast.makeText(this, "Uploading Please Wait...", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(textViewImg.VISIBLE);
                 final StorageReference storageReference=mStorageref.child(title.getText()+"."+getFileExtention(audioUri));

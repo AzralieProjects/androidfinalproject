@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#778899"
+    android:background="@android:color/darker_gray"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:background="#708090"
+
         >
 
         <EditText
@@ -46,29 +46,39 @@
         android:id="@+id/SongsListViewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:dividerHeight="3dp"
+        android:longClickable="true">
     </ListView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:background="#708090"
+        android:background="@android:color/background_light"
+
         >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/Btn1Id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="10"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:clickable="true"
+            android:focusable="true"
        android:src="@drawable/ic_music_note"/>
-        <ImageButton
+
+        <ImageView
             android:id="@+id/UploadID1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:ems="10"
+            android:layout_weight="5"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_cloud_upload"
         />
 

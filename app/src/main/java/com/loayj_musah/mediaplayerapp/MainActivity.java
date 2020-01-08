@@ -1,19 +1,25 @@
 package com.loayj_musah.mediaplayerapp;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +36,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener  {
     private Button Insert;
-    private ImageButton Btn1ID,uploadBtn;
+    private ImageView Btn1ID,uploadBtn;
     private EditText Name, URL;
     private ListView listView;
     private ArrayList<Song> arrayList;
@@ -38,12 +44,14 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private MediaPlayer player;
     private int index;
     boolean playedB =false;
+    private ArrayList keys;
     FirebaseStorage mStorage;
     DatabaseReference databaseReference;
-ValueEventListener valueEventListener;
+    ValueEventListener valueEventListener;
     int played=-1;
     String name ;
     String url;
+    Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +65,12 @@ ValueEventListener valueEventListener;
         Btn1ID=findViewById(R.id.Btn1Id);
         uploadBtn=findViewById(R.id.UploadID1);
         listView = findViewById(R.id.SongsListViewId);
+        Btn1ID.setEnabled(false);
+        Btn1ID.setVisibility(View.INVISIBLE);
+         serviceIntent = new Intent(this, MusicService.class);
         arrayList = new ArrayList<>();
+        keys=new ArrayList<String>();
+
         arrayAdapter = new SongCustomAdapter(this, arrayList);
         listView.setAdapter(arrayAdapter);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("songs");
@@ -66,11 +79,14 @@ ValueEventListener valueEventListener;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 for(DataSnapshot dss:dataSnapshot.getChildren()){
+                    keys.add(dss.getKey());
                     Song song=dss.getValue(Song.class);
 
                     arrayList.add(song);
                     arrayAdapter.notifyDataSetChanged();
                 }
+                Btn1ID.setEnabled(true);
+                Btn1ID.setVisibility(View.VISIBLE);
 
             }
 
@@ -94,6 +110,17 @@ ValueEventListener valueEventListener;
 
 
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                // TODO Auto-generated method stub
+
+                DeleteFromDB(pos);
+
+                return true;
+            }
+        });
 
         Insert.setOnClickListener(this);
         Btn1ID.setOnClickListener(this);
@@ -101,27 +128,59 @@ ValueEventListener valueEventListener;
 
     }
 
+    private void DeleteFromDB(final int pos) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to Delete this song?\n ")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("songs").child(keys.get(pos).toString());
+                        dR.removeValue();
+                        dR. removeValue();
+
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     public void startService(int position)
     {
         index=position;
         Intent serviceIntent = new Intent(this, MusicService.class);
-        String url=arrayList.get(position).getUrl();
-        serviceIntent.putExtra("url",url);
+       String url=arrayList.get(position).getUrl();
+       serviceIntent.putExtra("url",url);
+       if(isMyServiceRunning(MusicService.class))
+           stopService(serviceIntent);
         startService(serviceIntent);
-        playedB=true;
+
         MusicPlay();
 
 
     }
-    public void stopService(){
-        stopService(new Intent(getApplicationContext(), MusicService.class));
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void MusicPlay() {
         Intent intent = new Intent(MainActivity.this, MusicPlayer.class);
+
         intent.putExtra("name",arrayList.get(index).getName());
-        intent.putExtra("play",false);
+        intent.putExtra("url",arrayList.get(index).getUrl());
+
         if(playedB)
         intent.putExtra("play",true);
 
@@ -156,8 +215,6 @@ ValueEventListener valueEventListener;
         }
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-
-        //arrayList.add(new Song(name,url,currentDate));
         arrayAdapter.notifyDataSetChanged();
         Toast.makeText(this, "inserted", Toast.LENGTH_SHORT).show();
     }
@@ -182,6 +239,58 @@ ValueEventListener valueEventListener;
 
 
 
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.menu1:
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+                alertbox.setTitle("About the app");
+                alertbox.setMessage("This app is a media player app.\nAll the media is connected to the firebase cloud so it requires internet co" +
+                        "nnectivity.\nMade By Loay & Musa ©.");
+
+                // add a neutral button to the alert box and assign a click listener
+                alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+
+                    // click listener on the alert box
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // the button was clicked
+
+                    }
+                });
+                alertbox.show();
+                break;
+
+            case R.id.menu2:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to exit the app?\n ")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if(isMyServiceRunning(MusicService.class))
+                                    stopService(serviceIntent);
+                                MainActivity.this.finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            case R.id.menu3:
+                MainActivity.this.finish();
+
+
+
+        }
+        return true;
     }
 
 

@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".MusicRecever">
+            <intent-filter>
+                <action android:name="com.loayj_musah.mediaplayerapp.CUSTOM_INTENT">
+                </action>
+            </intent-filter>
+
+        </receiver>
 
         <service android:name=".MusicService" />
     </application>
