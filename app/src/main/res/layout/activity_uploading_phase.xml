@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".UploadingPhaseActivity"
     android:orientation="vertical"
-    android:background="@drawable/nath">
+    android:background="@drawable/img2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,9 +28,9 @@
         </TextView>
     </LinearLayout>
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="5dip"
-        android:background="#FFF0FFF0" />
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@android:color/black" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,9 +53,10 @@
             android:textSize="40dp"
             android:drawableBottom="@drawable/ic_cloud_download_black_24dp"/>
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="10dip"
-            android:background="#FFFFFFF0" />
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@android:color/black" />
+
         <TextView
             android:id="@+id/DbUploadId"
             android:layout_width="match_parent"

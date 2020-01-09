@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:dividerHeight="3dp"
-        android:longClickable="true">
+        android:dividerHeight="10dp"
+        android:longClickable="true"
+        android:background="@drawable/img">
     </ListView>
     <LinearLayout
         android:layout_width="match_parent"
